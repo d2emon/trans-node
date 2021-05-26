@@ -1,0 +1,40 @@
+{
+  "name": "probire",
+  "version": "0.1.0",
+  "description": "Backend for Transport DB",
+  "private": true,
+  "main": "./dist/run.js",
+  "scripts": {
+    "build": "babel src -d dist",
+    "prestart": "npm run build",
+    "start": "node ./dist/run.js",
+    "debug": "node --debug-brk ./dist/run.js",
+    "serve": "nodemon --watch src npm start",
+    "test": "mocha --compilers js:babel-register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/d2emon/trans-node.git"
+  },
+  "author": "Dmitry Kutsenko",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://gitlab.com/d2emon/trans-node/issues"
+  },
+  "homepage": "https://gitlab.com/d2emon/trans-node#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "debug": "^4.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11",
+    "morgan": "^1.10.0"
+  }
+}

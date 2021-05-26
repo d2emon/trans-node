@@ -1,0 +1,33 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27018:27017
+    restart: always
+    volumes:
+      - ./data/db:/data/db
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongo
+    ports:
+      - 8081:8081
+    restart: always
+  backend:
+    build: ./back
+    command: npm run serve
+    depends_on:
+      - mongo
+    env_file:
+      - ./env/dev.env
+    links:
+      - mongo
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - ./back/dist:/usr/src/app/dist
+      - ./back/node_modules:/usr/src/app/node_modules
+      - ./back/package.json:/usr/src/app/package.json
+      - ./back/src:/app/src
