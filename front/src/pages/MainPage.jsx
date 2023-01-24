@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import TopMenu from '../components/TopMenu';
+import TransBreadcrumbs from '../components/TransBreadcrumbs';
 import citiesService from '../services/cities';
 import usersService from '../services/users';
 
@@ -23,6 +24,7 @@ function MainPage() {
     <>
       <TopMenu />
       <Container>
+        <TransBreadcrumbs />
         <Outlet />
       </Container>
     </>

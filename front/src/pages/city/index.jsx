@@ -1,28 +1,26 @@
-import React from 'react';
-import { Breadcrumb, Container } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Container } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import {
   Navigate,
   Outlet,
   useLoaderData,
   useParams,
 } from 'react-router-dom';
+import { setCity } from '../../reducers/breadcrumbsSlice';
 import citiesService from '../../services/cities';
 
-export async function loader({ params, request }) {
-  // const cities = await citiesService.load();
-
+export async function loader({ params }) {
   const {
     cityId,
   } = params;
 
+  const cities = await citiesService.load();
   const city = await citiesService.bySlug(cityId);
 
-  console.log(request);
-  console.log(city);
-
   return {
+    cities,
     city,
-    // cities,
   };
 }
 
@@ -38,16 +36,14 @@ function City() {
   const {
     city,
   } = useLoaderData();
+  const dispatch = useDispatch();
 
-  console.log(city);
+  useEffect(() => {
+    dispatch(setCity(city));
+  }, []);
 
   return (
     <Container>
-      <Breadcrumb>
-        <Breadcrumb.Item href={city.links.main}>{city.name}</Breadcrumb.Item>
-        <Breadcrumb.Item href={city.links.map}>Карта</Breadcrumb.Item>
-      </Breadcrumb>
-
       <Outlet />
     </Container>
   );

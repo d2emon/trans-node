@@ -1,21 +1,21 @@
 const getUser = async (name, slug) => ({
-    name,
-    slug,
-    links: {
-        profile: `/${slug}/`,
-    },
+  name,
+  slug,
+  links: {
+    profile: `/user/${slug}/`,
+  },
 });
 
 const load = async () => Promise.all([
-    getUser('Admin', 'admin'),
+  getUser('Admin', 'admin'),
 ]);
 
 const bySlug = async (slug) => {
-    const items = await load();
-    return items.find(item => item.slug === slug);
-}
+  const items = await load();
+  return items.find((item) => item.slug === slug);
+};
 
 export default {
-    bySlug,
-    load,
+  bySlug,
+  load,
 };

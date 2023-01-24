@@ -9,14 +9,34 @@ import {
   Tab,
   Tabs,
 } from 'react-bootstrap';
-import { useLoaderData } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCity, setBreadcrumbs } from '../../reducers/breadcrumbsSlice';
 
 function RoutesPage() {
-  const {
-    city,
-  } = useLoaderData();
+  const city = useSelector(selectCity);
 
-  const [transport, setTransport] = useState(city.transport);
+  const dispatch = useDispatch();
+
+  const [transport, setTransport] = useState(city && city.transport);
+
+  useEffect(() => {
+    if (city) {
+      setTransport(city.transport);
+
+      dispatch(setBreadcrumbs([
+        {
+          id: city.slug,
+          href: city.links ? city.links.main : '/',
+          text: city.name,
+        },
+        {
+          id: 'routes',
+          href: city.links ? city.links.routes : '/',
+          text: 'Справочник',
+        },
+      ]));
+    }
+  }, [city]);
 
   const tabs = [
     {
@@ -32,10 +52,6 @@ function RoutesPage() {
       title: 'Пригородные / Междугородные',
     },
   ];
-
-  useEffect(() => {
-    setTransport(city.transport);
-  }, [city]);
 
   const filterRoutes = (name) => city.transport
     .map((item) => {
@@ -113,7 +129,7 @@ function RoutesPage() {
                     eventKey={tab.key}
                     title={tab.title}
                   >
-                    { transport.map((item) => ((item.routes.length > 0)
+                    { transport && transport.map((item) => ((item.routes.length > 0)
                       ? (
                         <Container
                           key={item.slug}
