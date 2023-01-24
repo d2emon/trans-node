@@ -50,7 +50,7 @@ function RoutesPage () {
         setTransport(transport);
     };
 
-    const handleSwitchDisabled = (value) => {
+    const handleSwitchDisabled = (event) => {
         const value = event.target.value;
         const transport = filterRoutes({ disabled: value });
         setTransport(transport);
