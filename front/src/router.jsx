@@ -1,10 +1,11 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import App from './components/App';
 import City, { CityRedirect, loader as cityLoader } from './pages/city';
 import MapPage from './pages/city/MapPage';
 import RoutesPage from './pages/city/RoutesPage';
+import InfoPage from './pages/info';
 import MainPage, { loader as mainLoader } from './pages/MainPage';
+import UserPage from './pages/user';
 
 const router = createBrowserRouter([
   {
@@ -14,11 +15,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/info',
-        element: <App />,
+        element: <InfoPage />,
       },
       {
         path: '/user/:username',
-        element: <App />,
+        element: <UserPage />,
       },
       {
         path: '/:cityId',
