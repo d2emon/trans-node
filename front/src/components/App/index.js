@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from '../assets/logo.svg';
+import logo from '../../assets/logo.svg';
 import './index.css';
-import Counter from '../components/Counter/Counter';
+import Counter from '../Counter/Counter';
 
 function App() {
   return (
