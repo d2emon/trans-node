@@ -1,6 +1,7 @@
 import transportService from './transports';
 
 const getCity = async (name, slug) => ({
+  id: slug,
   name,
   slug,
   links: {

@@ -4,6 +4,7 @@ import City, { CityRedirect, loader as cityLoader } from './pages/city';
 import MapPage from './pages/city/MapPage';
 import RoutesPage from './pages/city/RoutesPage';
 import InfoPage from './pages/info';
+import LandingPage from './pages/LandingPage';
 import MainPage, { loader as mainLoader } from './pages/MainPage';
 import UserPage from './pages/user';
 
@@ -14,8 +15,16 @@ const router = createBrowserRouter([
     loader: mainLoader,
     children: [
       {
+        path: '/',
+        element: <LandingPage />,
+      },
+      {
         path: '/info',
         element: <InfoPage />,
+      },
+      {
+        path: '/login',
+        element: <UserPage />,
       },
       {
         path: '/user/:username',
