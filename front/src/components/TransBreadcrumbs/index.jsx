@@ -1,6 +1,7 @@
 import React from 'react';
 import { Breadcrumb } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
 import {
   selectBreadcrumbs,
 } from '../../reducers/breadcrumbsSlice';
@@ -11,12 +12,14 @@ function TransBreadcrumbs() {
   return (
     <Breadcrumb>
       { breadcrumbs && breadcrumbs.map((item) => (
-        <Breadcrumb.Item
+        <LinkContainer
           key={item.id}
-          href={item.href}
+          to={item.href}
         >
-          {item.text}
-        </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            {item.text}
+          </Breadcrumb.Item>
+        </LinkContainer>
       )) }
     </Breadcrumb>
   );
