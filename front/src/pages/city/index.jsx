@@ -8,15 +8,15 @@ import {
   useParams,
 } from 'react-router-dom';
 import { setCity } from '../../reducers/breadcrumbsSlice';
-import citiesService from '../../services/cities';
+import cityAPI from '../../services/cityAPI/cityAPI';
 
 export async function loader({ params }) {
   const {
     cityId,
   } = params;
 
-  const cities = await citiesService.load();
-  const city = await citiesService.bySlug(cityId);
+  const cities = await cityAPI.load();
+  const city = await cityAPI.bySlug(cityId);
 
   return {
     cities,
