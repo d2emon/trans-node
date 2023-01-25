@@ -5,6 +5,7 @@ import {
   Navbar,
   NavDropdown,
 } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import PropTypes from 'prop-types';
 
 function TopMenu(props) {
@@ -17,31 +18,49 @@ function TopMenu(props) {
   return (
     <Navbar>
       <Container>
-        <Navbar.Brand href="/">Trans</Navbar.Brand>
+        <LinkContainer to="/">
+          <Navbar.Brand>Trans</Navbar.Brand>
+        </LinkContainer>
         <Nav className="me-auto">
           { city && (
             <>
-              <Nav.Link href={city.links.map}>Карта</Nav.Link>
-              <Nav.Link href={city.links.routes}>Справочник</Nav.Link>
+              <LinkContainer to={city.links.map}>
+                <Nav.Link>Карта</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to={city.links.routes}>
+                <Nav.Link>Справочник</Nav.Link>
+              </LinkContainer>
             </>
           ) }
-          <Nav.Link href="/info">Информация</Nav.Link>
+          <LinkContainer to="/info">
+            <Nav.Link>Информация</Nav.Link>
+          </LinkContainer>
         </Nav>
         <Nav>
           <NavDropdown title={city ? city.name : 'Город'}>
             { cities.map((item) => (
-              <NavDropdown.Item
+              <LinkContainer
                 key={item.id}
-                href={item.links.main}
+                to={item.links.main}
               >
-                {item.name}
-              </NavDropdown.Item>
+                <NavDropdown.Item>
+                  {item.name}
+                </NavDropdown.Item>
+              </LinkContainer>
             )) }
           </NavDropdown>
           {
             user
-              ? <Nav.Link href={user.links.profile}>{user.name}</Nav.Link>
-              : <Nav.Link href="/login">Войти</Nav.Link>
+              ? (
+                <LinkContainer to={user.links.profile}>
+                  <Nav.Link>{user.name}</Nav.Link>
+                </LinkContainer>
+              )
+              : (
+                <LinkContainer to="/login">
+                  <Nav.Link>Войти</Nav.Link>
+                </LinkContainer>
+              )
           }
         </Nav>
       </Container>
