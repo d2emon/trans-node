@@ -5,7 +5,7 @@ import { Outlet, useLoaderData } from 'react-router-dom';
 import TopMenu from '../components/TopMenu';
 import TransBreadcrumbs from '../components/TransBreadcrumbs';
 import { setCity } from '../reducers/breadcrumbsSlice';
-import cityAPI from '../services/cityAPI/cityAPI';
+import cityAPI from '../services/cityAPI';
 import usersService from '../services/users';
 
 export async function loader({ params }) {

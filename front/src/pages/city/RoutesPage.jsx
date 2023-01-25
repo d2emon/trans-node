@@ -11,9 +11,11 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCity, setBreadcrumbs } from '../../reducers/breadcrumbsSlice';
+import { fetchRoutes, selectRoutes } from '../../reducers/routeSlice';
 
 function RoutesPage() {
   const city = useSelector(selectCity);
+  const routes = useSelector(selectRoutes);
 
   const dispatch = useDispatch();
 
@@ -21,6 +23,8 @@ function RoutesPage() {
 
   useEffect(() => {
     if (city) {
+      dispatch(fetchRoutes(city ? city.id : null));
+
       setTransport(city.transport);
 
       dispatch(setBreadcrumbs([
@@ -37,6 +41,10 @@ function RoutesPage() {
       ]));
     }
   }, [city]);
+
+  useEffect(() => {
+    console.log(routes);
+  }, [routes]);
 
   const tabs = [
     {

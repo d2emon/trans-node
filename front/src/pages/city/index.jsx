@@ -8,7 +8,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { setCity } from '../../reducers/breadcrumbsSlice';
-import cityAPI from '../../services/cityAPI/cityAPI';
+import cityAPI from '../../services/cityAPI';
 
 export async function loader({ params }) {
   const {

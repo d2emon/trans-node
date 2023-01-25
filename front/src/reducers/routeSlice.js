@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import cityAPI from '../services/cityAPI';
 
 const initialState = {
   city: null,
@@ -10,7 +11,22 @@ const initialState = {
       profile: '/user/admin',
     },
   },
+  // Filters
+  disabled: false,
+  name: null,
 };
+
+export const fetchRoutes = createAsyncThunk(
+  'route/fetchRoutes',
+  async (cityId) => {
+    if (!cityId) {
+      return [];
+    }
+
+    const city = await cityAPI.bySlug(cityId);
+    return city ? city.transport : [];
+  },
+);
 
 export const routeSlice = createSlice({
   name: 'route',
@@ -24,13 +40,33 @@ export const routeSlice = createSlice({
       ...state,
       city: action.payload,
     }),
+    setDisabledFilter: (state, action) => ({
+      ...state,
+      disabled: action.payload,
+    }),
+    setNameFilter: (state, action) => ({
+      ...state,
+      name: action.payload,
+    }),
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchRoutes.pending, (state) => state)
+      .addCase(fetchRoutes.fulfilled, (state, action) => {
+        console.log('fulfilled', state, action.payload);
+        return {
+          ...state,
+          items: action.payload,
+        };
+      });
   },
 });
 
-export const { setBreadcrumbs, setCity } = routeSlice.actions;
+export const { setCity, setDisabledFilter, setNameFilter } = routeSlice.actions;
 
-export const selectBreadcrumbs = (state) => state.breadcrumbs.items;
-export const selectCity = (state) => state.breadcrumbs.city;
-export const selectUser = (state) => state.breadcrumbs.user;
+export const selectRoutes = (state) => state.routes.items.filter((item) => {
+  console.log(item);
+  return true;
+});
 
 export default routeSlice.reducer;

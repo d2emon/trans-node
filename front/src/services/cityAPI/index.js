@@ -30,6 +30,7 @@ const injectTransport = async (city) => {
 };
 
 const fetchCities = () => new Promise((resolve) => {
+  console.log('/api/cities');
   setTimeout(() => {
     const data = CITIES.map(injectLinks);
     resolve({ data });
@@ -37,6 +38,7 @@ const fetchCities = () => new Promise((resolve) => {
 });
 
 const fetchCity = (slug) => new Promise((resolve) => {
+  console.log(`/api/city/${slug}`);
   setTimeout(async () => {
     let data = CITIES.find((item) => item.slug === slug);
     data = injectLinks(data);
