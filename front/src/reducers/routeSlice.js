@@ -28,7 +28,22 @@ export const fetchRoutes = createAsyncThunk(
       return [];
     }
 
+    console.log('Fetching routes');
     const city = await cityAPI.bySlug(cityId);
+    return city ? city.transport : [];
+  },
+);
+
+export const fetchRoute = createAsyncThunk(
+  'route/fetchRoute',
+  async (cityId, routeId) => {
+    if (!cityId || !routeId) {
+      return null;
+    }
+
+    console.log('Fetching route');
+    const city = await cityAPI.bySlug(cityId);
+    console.log(city && city.transport);
     return city ? city.transport : [];
   },
 );

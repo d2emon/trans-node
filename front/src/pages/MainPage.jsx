@@ -13,6 +13,7 @@ export async function loader({ params }) {
     cityId,
   } = params;
 
+  console.log('Main loader');
   const cities = await cityAPI.load();
   const city = cityId ? await cityAPI.bySlug(cityId) : null;
 

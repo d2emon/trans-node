@@ -2,6 +2,7 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import City, { CityRedirect, loader as cityLoader } from './pages/city';
 import MapPage from './pages/city/MapPage';
+import RoutePage, { loader as routeLoader } from './pages/city/RoutePage';
 import RoutesPage from './pages/city/RoutesPage';
 import InfoPage from './pages/info';
 import LandingPage from './pages/LandingPage';
@@ -46,12 +47,12 @@ const router = createBrowserRouter([
           {
             path: '/:cityId/routes',
             element: <RoutesPage />,
-            loader: cityLoader,
+            // loader: cityLoader,
           },
           {
             path: '/:cityId/route/:routeId',
-            element: <RoutesPage />,
-            loader: cityLoader,
+            element: <RoutePage />,
+            loader: routeLoader,
           },
         ],
       },

@@ -41,4 +41,25 @@ export default [
   cityId,
   disabled: (Math.random() * 100) > 25,
   group: (Math.random() * 100) > 25 ? 'city' : 'country',
+  title: item.name,
+  runs: item.runs || [
+    {
+      id: '1',
+      title: 'Пункт 1 - Пункт 2',
+      length: '7 км',
+      stops: 14,
+    },
+    {
+      id: '2',
+      title: 'Пункт 2 - Пункт 1',
+      length: '7 км',
+      stops: 14,
+    },
+  ],
+  days: 'Ежедневно',
+  schedule: '06:30 - 20:45 каждые 9 мин',
+  cost: 7,
+  route: 'Маршрут',
+  driver: 'Перевозчик',
+  info: '',
 }));

@@ -29,13 +29,9 @@ function RoutesPage() {
 
   const dispatch = useDispatch();
 
-  // const [transport, setTransport] = useState(city && city.transport);
-
   useEffect(() => {
     if (city) {
       dispatch(fetchRoutes(city ? city.id : null));
-
-      // setTransport(city.transport);
 
       dispatch(setBreadcrumbs([
         {

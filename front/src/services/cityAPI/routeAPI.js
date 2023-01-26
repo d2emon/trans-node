@@ -35,17 +35,20 @@ const fetchByTransportId = (cityId, transportId) => new Promise((resolve) => {
   }, 500);
 });
 
-const fetchRoute = (slug) => new Promise((resolve) => {
+const fetchRoute = (cityId, slug) => new Promise((resolve) => {
   setTimeout(async () => {
-    let data = ROUTES.find((item) => item.slug === slug);
+    let data = ROUTES.find((item) => (
+      (item.cityId === cityId)
+        && (item.slug === slug)
+    ));
     data = injectLinks(data);
     resolve({ data });
   }, 500);
 });
 
 export default {
-  bySlug: async (slug) => {
-    const result = await fetchRoute(slug);
+  bySlug: async (cityId, slug) => {
+    const result = await fetchRoute(cityId, slug);
     return result.data;
   },
   load: async () => {
