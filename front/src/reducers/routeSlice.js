@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import cityAPI from '../services/cityAPI';
 
+export const GROUP_ALL = 'all';
+export const GROUP_CITY = 'city';
+export const GROUP_COUNTRY = 'country';
+
 const initialState = {
   city: null,
   items: [],
@@ -14,6 +18,7 @@ const initialState = {
   // Filters
   disabled: false,
   name: null,
+  group: 'all',
 };
 
 export const fetchRoutes = createAsyncThunk(
@@ -48,6 +53,10 @@ export const routeSlice = createSlice({
       ...state,
       name: action.payload,
     }),
+    setGroupFilter: (state, action) => ({
+      ...state,
+      group: action.payload,
+    }),
   },
   extraReducers: (builder) => {
     builder
@@ -62,11 +71,42 @@ export const routeSlice = createSlice({
   },
 });
 
-export const { setCity, setDisabledFilter, setNameFilter } = routeSlice.actions;
+export const {
+  setCity,
+  setDisabledFilter,
+  setGroupFilter,
+  setNameFilter,
+} = routeSlice.actions;
 
-export const selectRoutes = (state) => state.routes.items.filter((item) => {
-  console.log(item);
-  return true;
+export const selectRoutes = (state) => state.routes.items.map((transport) => {
+  const routes = transport.routes.filter((item) => {
+    const {
+      disabled,
+      group,
+      name,
+    } = state.routes;
+
+    let filtered = true;
+
+    if (name) {
+      filtered = filtered && item.name.includes(name);
+    }
+
+    if (!disabled) {
+      filtered = filtered && !item.disabled;
+    }
+
+    if (group !== GROUP_ALL) {
+      filtered = filtered && (item.group === group);
+    }
+
+    return filtered;
+  });
+
+  return {
+    ...transport,
+    routes,
+  };
 });
 
 export default routeSlice.reducer;

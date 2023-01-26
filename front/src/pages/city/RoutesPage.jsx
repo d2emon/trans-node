@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Card,
@@ -10,22 +10,32 @@ import {
   Tabs,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
 import { selectCity, setBreadcrumbs } from '../../reducers/breadcrumbsSlice';
-import { fetchRoutes, selectRoutes } from '../../reducers/routeSlice';
+import {
+  fetchRoutes,
+  GROUP_ALL,
+  GROUP_CITY,
+  GROUP_COUNTRY,
+  selectRoutes,
+  setDisabledFilter,
+  setGroupFilter,
+  setNameFilter,
+} from '../../reducers/routeSlice';
 
 function RoutesPage() {
   const city = useSelector(selectCity);
-  const routes = useSelector(selectRoutes);
+  const transport = useSelector(selectRoutes);
 
   const dispatch = useDispatch();
 
-  const [transport, setTransport] = useState(city && city.transport);
+  // const [transport, setTransport] = useState(city && city.transport);
 
   useEffect(() => {
     if (city) {
       dispatch(fetchRoutes(city ? city.id : null));
 
-      setTransport(city.transport);
+      // setTransport(city.transport);
 
       dispatch(setBreadcrumbs([
         {
@@ -42,36 +52,20 @@ function RoutesPage() {
     }
   }, [city]);
 
-  useEffect(() => {
-    console.log(routes);
-  }, [routes]);
-
   const tabs = [
     {
-      key: 'all',
+      key: GROUP_ALL,
       title: 'Все',
     },
     {
-      key: 'city',
+      key: GROUP_CITY,
       title: 'Городские',
     },
     {
-      key: 'country',
+      key: GROUP_COUNTRY,
       title: 'Пригородные / Междугородные',
     },
   ];
-
-  const filterRoutes = (name) => city.transport
-    .map((item) => {
-      const byName = () => item.routes
-        .filter((route) => route.name.includes(name));
-
-      console.log(item);
-      return ({
-        ...item,
-        routes: byName(),
-      });
-    });
 
   const handleAddNewRoute = () => {
     console.log('ADD NEW ROUTE');
@@ -79,15 +73,16 @@ function RoutesPage() {
 
   const handleFilterRoutes = (event) => {
     const { value } = event.target;
-    const newTransport = filterRoutes({ name: value });
-    setTransport(newTransport);
+    dispatch(setNameFilter(value));
   };
 
   const handleSwitchDisabled = (event) => {
-    const { value } = event.target;
-    const newTransport = filterRoutes({ disabled: value });
-    setTransport(newTransport);
-    console.log('DISABLED', value);
+    const { checked } = event.target;
+    dispatch(setDisabledFilter(checked));
+  };
+
+  const handleSelectTab = (value) => {
+    dispatch(setGroupFilter(value));
   };
 
   return (
@@ -130,6 +125,7 @@ function RoutesPage() {
                 defaultActiveKey="all"
                 className="mb-3"
                 justify
+                onSelect={handleSelectTab}
               >
                 { tabs.map((tab) => (
                   <Tab
@@ -145,14 +141,17 @@ function RoutesPage() {
                           <Card.Title>{ item.name }</Card.Title>
                           <Container>
                             { item.routes.map((route) => (
-                              <Button
-                                key={route.slug}
-                                className="mx-1"
-                                variant="light"
-                                href={route.links.main}
+                              <LinkContainer
+                                key={route.id}
+                                to={route.links.main}
                               >
-                                {route.name}
-                              </Button>
+                                <Button
+                                  className="mx-1"
+                                  variant={route.disabled ? 'dark' : 'light'}
+                                >
+                                  {route.name}
+                                </Button>
+                              </LinkContainer>
                             )) }
                           </Container>
                         </Container>

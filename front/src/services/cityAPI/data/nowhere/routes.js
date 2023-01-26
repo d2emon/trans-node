@@ -39,4 +39,6 @@ export default [
 ].map((item) => ({
   ...item,
   cityId,
+  disabled: (Math.random() * 100) > 25,
+  group: (Math.random() * 100) > 25 ? 'city' : 'country',
 }));
