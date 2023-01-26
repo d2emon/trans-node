@@ -7,11 +7,9 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoaderData, useParams } from 'react-router-dom';
-import App from '../../components/App';
 import RouteCard from '../../components/RouteCard';
 import { selectCity, setBreadcrumbs } from '../../reducers/breadcrumbsSlice';
 import {
-  // fetchCity,
   fetchRoute,
 } from '../../reducers/routeSlice';
 import routeAPI from '../../services/cityAPI/routeAPI';
@@ -45,11 +43,11 @@ function RoutePage() {
   const city = useSelector(selectCity);
 
   useEffect(() => {
-    console.log(cityId, routeId, route);
+    console.log(cityId, routeId);
     if (cityId && routeId) {
       dispatch(fetchRoute(cityId, routeId));
     }
-  }, [cityId, routeId, city]);
+  }, [cityId, routeId]);
 
   useEffect(() => {
     console.log(city, route);
@@ -87,15 +85,12 @@ function RoutePage() {
               Кнопка
             </Button>
           </div>
-          <App />
         </Col>
 
         <Col>
           <Container className="mb-3">
             { route && (
               <RouteCard
-                cityId={cityId}
-                routeId={routeId}
                 city={city}
                 route={route}
               />

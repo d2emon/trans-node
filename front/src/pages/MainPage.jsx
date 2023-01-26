@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Outlet, useLoaderData } from 'react-router-dom';
 import TopMenu from '../components/TopMenu';
 import TransBreadcrumbs from '../components/TransBreadcrumbs';
+import { selectBreadcrumbs } from '../reducers/breadcrumbsSlice';
 import { selectCity } from '../reducers/routeSlice';
 import cityAPI from '../services/cityAPI';
 import usersService from '../services/users';
@@ -27,6 +28,7 @@ function MainPage() {
     user,
   } = useLoaderData();
 
+  const breadcrumbs = useSelector(selectBreadcrumbs);
   const city = useSelector(selectCity);
 
   return (
@@ -37,7 +39,7 @@ function MainPage() {
         user={user}
       />
       <Container>
-        <TransBreadcrumbs />
+        <TransBreadcrumbs breadcrumbs={breadcrumbs} />
         <Outlet />
       </Container>
     </>

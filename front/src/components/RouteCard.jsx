@@ -7,58 +7,25 @@ import {
   ListGroup,
   Row,
 } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import App from './App';
-import { setBreadcrumbs } from '../reducers/breadcrumbsSlice';
-import {
-  fetchRoute,
-} from '../reducers/routeSlice';
 
 function RouteCard(props) {
   const {
-    cityId,
-    routeId,
     city,
     route,
   } = props;
 
-  const dispatch = useDispatch();
-
   const [run, setRun] = useState('');
 
   useEffect(() => {
-    console.log(cityId, routeId);
-    if (cityId && routeId) {
-      dispatch(fetchRoute(cityId, routeId));
-    }
-  }, [cityId, routeId]);
-
-  useEffect(() => {
     console.log(city, route);
-    if (!city || !route) {
+    if (!route) {
       return;
     }
 
     setRun((route.runs.length > 0) ? route.runs[0].id : '');
-    dispatch(setBreadcrumbs([
-      {
-        id: city.slug,
-        href: city.links ? city.links.main : '',
-        text: city.name,
-      },
-      {
-        id: 'routes',
-        href: city.links ? city.links.routes : '',
-        text: 'Справочник',
-      },
-      {
-        id: route.slug,
-        href: route.links ? route.links.main : '',
-        text: route.title,
-      },
-    ]));
-  }, [city, route]);
+  }, [route]);
 
   const handleRunSelect = (event) => {
     const { value } = event.target;
@@ -162,15 +129,11 @@ function RouteCard(props) {
 }
 
 RouteCard.defaultProps = {
-  cityId: null,
-  routeId: null,
   city: null,
   route: null,
 };
 
 RouteCard.propTypes = {
-  cityId: PropTypes.string,
-  routeId: PropTypes.string,
   city: PropTypes.shape({
     slug: PropTypes.string,
     name: PropTypes.string,

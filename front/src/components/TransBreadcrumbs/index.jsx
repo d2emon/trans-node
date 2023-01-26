@@ -1,13 +1,10 @@
 import React from 'react';
 import { Breadcrumb } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import {
-  selectBreadcrumbs,
-} from '../../reducers/breadcrumbsSlice';
+import PropTypes from 'prop-types';
 
-function TransBreadcrumbs() {
-  const breadcrumbs = useSelector(selectBreadcrumbs);
+function TransBreadcrumbs(props) {
+  const { breadcrumbs } = props;
 
   return (
     <Breadcrumb>
@@ -24,5 +21,17 @@ function TransBreadcrumbs() {
     </Breadcrumb>
   );
 }
+
+TransBreadcrumbs.defaultProps = {
+  breadcrumbs: [],
+};
+
+TransBreadcrumbs.propTypes = {
+  breadcrumbs: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    href: PropTypes.string,
+    text: PropTypes.string,
+  })),
+};
 
 export default TransBreadcrumbs;
