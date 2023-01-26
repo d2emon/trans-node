@@ -1,27 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Container } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Outlet, useLoaderData } from 'react-router-dom';
 import TopMenu from '../components/TopMenu';
 import TransBreadcrumbs from '../components/TransBreadcrumbs';
-import { setCity } from '../reducers/breadcrumbsSlice';
+import { selectCity } from '../reducers/routeSlice';
 import cityAPI from '../services/cityAPI';
 import usersService from '../services/users';
 
-export async function loader({ params }) {
-  const {
-    cityId,
-  } = params;
-
+export async function loader() {
   console.log('Main loader');
   const cities = await cityAPI.load();
-  const city = cityId ? await cityAPI.bySlug(cityId) : null;
-
   const users = await usersService.load();
   const user = null; // await usersService.bySlug('admin');
 
   return {
-    city,
     cities,
     user,
     users,
@@ -31,15 +24,10 @@ export async function loader({ params }) {
 function MainPage() {
   const {
     cities,
-    city,
     user,
   } = useLoaderData();
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setCity(city));
-  }, []);
+  const city = useSelector(selectCity);
 
   return (
     <>

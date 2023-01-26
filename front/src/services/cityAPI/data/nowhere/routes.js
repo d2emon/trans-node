@@ -58,7 +58,7 @@ export default [
   ],
   days: 'Ежедневно',
   schedule: '06:30 - 20:45 каждые 9 мин',
-  cost: 7,
+  cost: '7',
   route: 'Маршрут',
   driver: 'Перевозчик',
   info: '',

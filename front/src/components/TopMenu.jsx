@@ -41,7 +41,7 @@ function TopMenu(props) {
             { cities.map((item) => (
               <LinkContainer
                 key={item.id}
-                to={item.links.main}
+                to={item.links.map}
               >
                 <NavDropdown.Item>
                   {item.name}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import City, { CityRedirect, loader as cityLoader } from './pages/city';
+import City, { CityRedirect } from './pages/city';
 import MapPage from './pages/city/MapPage';
 import RoutePage, { loader as routeLoader } from './pages/city/RoutePage';
 import RoutesPage from './pages/city/RoutesPage';
@@ -34,7 +34,6 @@ const router = createBrowserRouter([
       {
         path: '/:cityId',
         element: <City />,
-        loader: cityLoader,
         children: [
           {
             path: '/:cityId/',

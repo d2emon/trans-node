@@ -21,16 +21,16 @@ const initialState = {
   group: 'all',
 };
 
-export const fetchRoutes = createAsyncThunk(
-  'route/fetchRoutes',
+export const fetchCity = createAsyncThunk(
+  'route/fetchCity',
   async (cityId) => {
     if (!cityId) {
-      return [];
+      return null;
     }
 
     console.log('Fetching routes');
     const city = await cityAPI.bySlug(cityId);
-    return city ? city.transport : [];
+    return city;
   },
 );
 
@@ -43,7 +43,6 @@ export const fetchRoute = createAsyncThunk(
 
     console.log('Fetching route');
     const city = await cityAPI.bySlug(cityId);
-    console.log(city && city.transport);
     return city ? city.transport : [];
   },
 );
@@ -75,12 +74,13 @@ export const routeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchRoutes.pending, (state) => state)
-      .addCase(fetchRoutes.fulfilled, (state, action) => {
-        console.log('fulfilled', state, action.payload);
+      .addCase(fetchCity.pending, (state) => state)
+      .addCase(fetchCity.fulfilled, (state, action) => {
+        const city = action.payload;
         return {
           ...state,
-          items: action.payload,
+          items: city ? city.transport : [],
+          city,
         };
       });
   },
@@ -93,6 +93,7 @@ export const {
   setNameFilter,
 } = routeSlice.actions;
 
+export const selectCity = (state) => state.routes.city;
 export const selectRoutes = (state) => state.routes.items.map((transport) => {
   const routes = transport.routes.filter((item) => {
     const {

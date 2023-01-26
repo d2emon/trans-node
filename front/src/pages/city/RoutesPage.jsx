@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { selectCity, setBreadcrumbs } from '../../reducers/breadcrumbsSlice';
 import {
-  fetchRoutes,
   GROUP_ALL,
   GROUP_CITY,
   GROUP_COUNTRY,
@@ -31,8 +30,6 @@ function RoutesPage() {
 
   useEffect(() => {
     if (city) {
-      dispatch(fetchRoutes(city ? city.id : null));
-
       dispatch(setBreadcrumbs([
         {
           id: city.slug,

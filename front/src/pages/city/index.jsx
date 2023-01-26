@@ -1,29 +1,14 @@
 import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Navigate,
   Outlet,
-  useLoaderData,
+  // useLoaderData,
   useParams,
 } from 'react-router-dom';
 import { setCity } from '../../reducers/breadcrumbsSlice';
-import cityAPI from '../../services/cityAPI';
-
-export async function loader({ params }) {
-  const {
-    cityId,
-  } = params;
-
-  console.log('City loader');
-  const cities = await cityAPI.load();
-  const city = await cityAPI.bySlug(cityId);
-
-  return {
-    cities,
-    city,
-  };
-}
+import { fetchCity, selectCity } from '../../reducers/routeSlice';
 
 export function CityRedirect() {
   const {
@@ -34,14 +19,22 @@ export function CityRedirect() {
 }
 
 function City() {
-  const {
-    city,
-  } = useLoaderData();
   const dispatch = useDispatch();
+
+  const {
+    cityId,
+  } = useParams();
+
+  const city = useSelector(selectCity);
+
+  useEffect(() => {
+    console.log('FETCH CITY', cityId, city);
+    dispatch(fetchCity(cityId));
+  }, [cityId]);
 
   useEffect(() => {
     dispatch(setCity(city));
-  }, []);
+  }, [city]);
 
   return (
     <Container>
