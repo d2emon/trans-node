@@ -20,7 +20,6 @@ export async function loader({ params }) {
     routeId,
   } = params;
 
-  console.log('Route loader');
   const route = await routeAPI.bySlug(cityId, routeId);
 
   return {
@@ -43,14 +42,12 @@ function RoutePage() {
   const city = useSelector(selectCity);
 
   useEffect(() => {
-    console.log(cityId, routeId);
     if (cityId && routeId) {
       dispatch(fetchRoute(cityId, routeId));
     }
   }, [cityId, routeId]);
 
   useEffect(() => {
-    console.log(city, route);
     if (!city || !route) {
       return;
     }

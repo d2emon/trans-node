@@ -10,7 +10,6 @@ import cityAPI from '../services/cityAPI';
 import usersService from '../services/users';
 
 export async function loader() {
-  console.log('Main loader');
   const cities = await cityAPI.load();
   const users = await usersService.load();
   const user = null; // await usersService.bySlug('admin');

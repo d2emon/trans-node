@@ -28,13 +28,13 @@ function City() {
   const city = useSelector(selectCity);
 
   useEffect(() => {
-    console.log('FETCH CITY', cityId, city);
+    // TODO: Make it running once
     dispatch(fetchCity(cityId));
-  }, [cityId]);
+  }, [cityId, dispatch]);
 
   useEffect(() => {
     dispatch(setCity(city));
-  }, [city]);
+  }, [city, dispatch]);
 
   return (
     <Container>

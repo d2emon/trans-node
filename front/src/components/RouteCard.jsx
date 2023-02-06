@@ -12,14 +12,12 @@ import App from './App';
 
 function RouteCard(props) {
   const {
-    city,
     route,
   } = props;
 
   const [run, setRun] = useState('');
 
   useEffect(() => {
-    console.log(city, route);
     if (!route) {
       return;
     }

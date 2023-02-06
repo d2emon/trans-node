@@ -28,7 +28,6 @@ export const fetchCity = createAsyncThunk(
       return null;
     }
 
-    console.log('Fetching routes');
     const city = await cityAPI.bySlug(cityId);
     return city;
   },
@@ -41,7 +40,6 @@ export const fetchRoute = createAsyncThunk(
       return null;
     }
 
-    console.log('Fetching route');
     const city = await cityAPI.bySlug(cityId);
     return city ? city.transport : [];
   },
