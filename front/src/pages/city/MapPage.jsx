@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import ConnectionsList from '../../components/ConnectionsList';
@@ -8,8 +8,26 @@ import { selectCity, setBreadcrumbs } from '../../reducers/breadcrumbsSlice';
 
 function MapPage() {
   const city = useSelector(selectCity);
+  const [location, setLocation] = useState({
+    id: '1',
+    title: 'Название',
+    description: `
+    <p>Описание</p>
+    <p>Описание</p>
+    <p>Описание</p>
+    `,
+    connections: [
+      'Вариант 1',
+      'Вариант 2',
+      'Вариант 3',
+    ],
+  });
 
   const dispatch = useDispatch();
+
+  const handleSaveLocation = useCallback((data) => {
+    setLocation(data);
+  }, []);
 
   useEffect(() => {
     if (city) {
@@ -33,20 +51,11 @@ function MapPage() {
       <Row>
         <Col>
           <Location
-            connections={[
-              'Вариант 1',
-              'Вариант 2',
-              'Вариант 3',
-            ]}
-            description={(
-              <>
-                <p>Описание</p>
-                <p>Описание</p>
-                <p>Описание</p>
-              </>
-            )}
-            locationId="1"
-            title="Название"
+            connections={location.connections}
+            description={location.description}
+            locationId={location.id}
+            title={location.title}
+            onSave={handleSaveLocation}
           />
         </Col>
         <Col>
