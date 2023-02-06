@@ -1,7 +1,7 @@
 version: "3"
 services:
   mongo:
-    image: mongo
+    image: mongo:4.4.18
     ports:
       - 27018:27017
     restart: always
@@ -18,7 +18,7 @@ services:
     build: ./back
     command: npm run serve
     depends_on:
-      - mongo
+     - mongo
     env_file:
       - ./env/dev.env
     links:
