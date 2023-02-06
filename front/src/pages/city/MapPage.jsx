@@ -5,58 +5,77 @@ import ConnectionsList from '../../components/ConnectionsList';
 import Location from '../../components/Location';
 import TransportList from '../../components/TransportList';
 import { selectCity, setBreadcrumbs } from '../../reducers/breadcrumbsSlice';
+import {
+  fetchLocation,
+  selectIsLoading,
+  selectLocation,
+  updateLocation,
+} from '../../reducers/locationSlice';
 
 function MapPage() {
-  const city = useSelector(selectCity);
-  const [location, setLocation] = useState({
-    id: '1',
-    title: 'Название',
-    description: `
-    <p>Описание</p>
-    <p>Описание</p>
-    <p>Описание</p>
-    `,
-    connections: [
-      'Вариант 1',
-      'Вариант 2',
-      'Вариант 3',
-    ],
-  });
-
   const dispatch = useDispatch();
 
+  const city = useSelector(selectCity);
+  const isLoading = useSelector(selectIsLoading);
+  const locationData = useSelector(selectLocation);
+
+  const [locationId, setLocationId] = useState(null);
+  const [connections, setConnections] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [title, setTitle] = useState(null);
+
   const handleSaveLocation = useCallback((data) => {
-    setLocation(data);
-  }, []);
+    dispatch(updateLocation({
+      locationId: data.id,
+      data,
+    }));
+  }, [dispatch]);
 
   useEffect(() => {
-    if (city) {
-      dispatch(setBreadcrumbs([
-        {
-          id: city.slug,
-          href: city.links.main,
-          text: city.name,
-        },
-        {
-          id: 'map',
-          href: city.links.map,
-          text: 'Карта',
-        },
-      ]));
+    setLocationId(locationData.locationId);
+    setConnections(locationData.connections);
+    setDescription(locationData.description);
+    setTitle(locationData.title);
+  }, [locationData]);
+
+  useEffect(() => {
+    if (!city) {
+      return;
     }
-  }, [city]);
+
+    dispatch(setBreadcrumbs([
+      {
+        id: city.slug,
+        href: city.links.main,
+        text: city.name,
+      },
+      {
+        id: 'map',
+        href: city.links.map,
+        text: 'Карта',
+      },
+    ]));
+
+    dispatch(fetchLocation({ cityId: city.slug, locationId: '1' }));
+  }, [dispatch, city]);
 
   return (
     <Container>
       <Row>
         <Col>
-          <Location
-            connections={location.connections}
-            description={location.description}
-            locationId={location.id}
-            title={location.title}
-            onSave={handleSaveLocation}
-          />
+          {
+            isLoading
+              ? <h1>Loading...</h1>
+              : (
+                <Location
+                  connections={connections}
+                  description={description}
+                  locationId={locationId}
+                  title={title}
+                  onSave={handleSaveLocation}
+                />
+              )
+          }
         </Col>
         <Col>
           <Row>
