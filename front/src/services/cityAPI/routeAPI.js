@@ -46,7 +46,7 @@ const fetchRoute = (cityId, slug) => new Promise((resolve) => {
   }, 500);
 });
 
-export default {
+const routeAPI = {
   bySlug: async (cityId, slug) => {
     const result = await fetchRoute(cityId, slug);
     return result.data;
@@ -60,3 +60,5 @@ export default {
     return result.data;
   },
 };
+
+export default routeAPI;

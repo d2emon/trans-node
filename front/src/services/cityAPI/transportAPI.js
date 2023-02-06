@@ -29,7 +29,7 @@ const fetchByCity = (cityId) => new Promise((resolve) => {
   }, 500);
 });
 
-export default {
+const transportAPI = {
   byCityId: async (cityId) => {
     const result = await fetchByCity(cityId);
     return result.data;
@@ -39,3 +39,5 @@ export default {
     return result.data;
   },
 };
+
+export default transportAPI;

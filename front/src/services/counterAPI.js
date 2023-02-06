@@ -4,6 +4,8 @@ export function fetchCount(amount = 1) {
   });
 }
 
-export default {
+const counterAPI = {
   fetchCount,
 };
+
+export default counterAPI;

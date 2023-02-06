@@ -15,7 +15,9 @@ const bySlug = async (slug) => {
   return items.find((item) => item.slug === slug);
 };
 
-export default {
+const usersAPI = {
   bySlug,
   load,
 };
+
+export default usersAPI;

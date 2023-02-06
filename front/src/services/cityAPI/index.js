@@ -45,7 +45,7 @@ const fetchCity = (slug) => new Promise((resolve) => {
   }, 500);
 });
 
-export default {
+const cityAPI = {
   bySlug: async (slug) => {
     console.log(`/api/city/${slug}`);
     const result = await fetchCity(slug);
@@ -57,3 +57,5 @@ export default {
     return result.data;
   },
 };
+
+export default cityAPI;
