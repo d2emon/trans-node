@@ -1,12 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import {
-  Card, Form, Nav, Navbar,
+  Button,
+  Card, Col, Container, Form, Nav, Navbar, Row,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import DataCard from './DataCard';
 
 function LocationEditor(props) {
   const {
     locationId,
+    locations,
     title,
     description,
     connections,
@@ -16,6 +19,7 @@ function LocationEditor(props) {
 
   const [locationTitle, setLocationTitle] = useState(title);
   const [locationDescription, setLocationDescription] = useState(description);
+  const [locationConnections, setLocationConnections] = useState(connections);
 
   const handleCancel = useCallback(() => {
     if (onCancel) {
@@ -26,19 +30,25 @@ function LocationEditor(props) {
   const handleSave = useCallback(() => {
     console.log({
       id: locationId,
-      connections,
+      connections: locationConnections,
       description: locationDescription,
       title: locationTitle,
     });
     if (onSave) {
       onSave({
         id: locationId,
-        connections,
+        connections: locationConnections,
         description: locationDescription,
         title: locationTitle,
       });
     }
-  }, [onSave, locationId, connections, locationDescription, locationTitle]);
+  }, [
+    locationId,
+    locationConnections,
+    locationDescription,
+    locationTitle,
+    onSave,
+  ]);
 
   const handleChangeDescription = useCallback((e) => {
     setLocationDescription(e.target.value);
@@ -47,6 +57,41 @@ function LocationEditor(props) {
   const handleChangeTitle = useCallback((e) => {
     setLocationTitle(e.target.value);
   }, []);
+
+  const handleAddConnection = useCallback(() => {
+    setLocationConnections([
+      ...locationConnections,
+      {
+        id: `${locationConnections.length + 1}`,
+        locationId: null,
+        title: null,
+      },
+    ]);
+  }, [locationConnections]);
+
+  const handleChangeConnection = useCallback((id) => (e) => {
+    const { value } = e.target;
+    const location = locations.find((item) => (item.id === value));
+
+    const values = locationConnections.map((item) => {
+      if (item.id !== id) {
+        return item;
+      }
+
+      return {
+        id,
+        locationId: location.id,
+        title: location.title,
+      };
+    });
+
+    setLocationConnections(values);
+  }, [locationConnections, locations]);
+
+  const handleDeleteConnection = useCallback((id) => () => {
+    const values = locationConnections.filter((item) => (item.id !== id));
+    setLocationConnections(values);
+  }, [locationConnections, locations]);
 
   return (
     <Card>
@@ -76,6 +121,46 @@ function LocationEditor(props) {
             />
           </Form.Group>
 
+          <DataCard
+            title="Переходы"
+            hasAddButton
+            onAddItem={handleAddConnection}
+          >
+            <Container className="mb-2">
+              { locationConnections.map((connection) => (
+                <Row
+                  key={connection.id}
+                  className="my-2"
+                >
+                  <Col>
+                    <Form.Select
+                      value={connection.locationId}
+                      onChange={handleChangeConnection(connection.id)}
+                    >
+                      <option>Выберите локацию</option>
+                      { locations.map((location) => (
+                        <option
+                          key={location.id}
+                          value={location.id}
+                        >
+                          {location.title}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Col>
+                  <Col md={4}>
+                    <Button
+                      variant="primary"
+                      onClick={handleDeleteConnection(connection.id)}
+                    >
+                      Удалить
+                    </Button>
+                  </Col>
+                </Row>
+              ))}
+            </Container>
+          </DataCard>
+
         </Form>
       </Card.Body>
 
@@ -95,15 +180,24 @@ LocationEditor.defaultProps = {
   connections: null,
   description: null,
   locationId: null,
+  locations: [],
   title: null,
   onCancel: null,
   onSave: null,
 };
 
 LocationEditor.propTypes = {
-  connections: PropTypes.arrayOf(PropTypes.string),
+  connections: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    locationId: PropTypes.string,
+    title: PropTypes.string,
+  })),
   description: PropTypes.node,
   locationId: PropTypes.string,
+  locations: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+  })),
   title: PropTypes.string,
   onCancel: PropTypes.func,
   onSave: PropTypes.func,

@@ -7,9 +7,9 @@ const LOCATIONS = [
     <p>Описание</p>
     `,
     connections: [
-      'Вариант 1',
-      'Вариант 2',
-      'Вариант 3',
+      { id: '1', locationId: '1', title: 'Вариант 1' },
+      { id: '2', locationId: '2', title: 'Вариант 2' },
+      { id: '3', locationId: '3', title: 'Вариант 3' },
     ],
   },
 ];

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Card, Nav, Navbar,
 } from 'react-bootstrap';
@@ -11,6 +11,9 @@ function DataCard(props) {
     children,
 
     className,
+    hasAddButton,
+    hasDeleteButton,
+    hasEditButton,
     subtitle,
     title,
 
@@ -19,18 +22,29 @@ function DataCard(props) {
     onEditItem,
   } = props;
 
+  const hasButtons = useMemo(
+    () => (hasAddButton || hasEditButton || hasDeleteButton),
+    [
+      hasAddButton,
+      hasDeleteButton,
+      hasEditButton,
+    ],
+  );
+
   return (
     <Card className={className}>
       <Card.Header>
         { subtitle && <Card.Subtitle>{ subtitle }</Card.Subtitle> }
         { title && <Card.Title>{ title }</Card.Title> }
-        <Navbar>
-          <Nav className="me-auto">
-            <Nav.Link onClick={onAddItem}>Добавить</Nav.Link>
-            <Nav.Link onClick={onEditItem}>Редактировать</Nav.Link>
-            <Nav.Link onClick={onDeleteItem}>Удалить</Nav.Link>
-          </Nav>
-        </Navbar>
+        { hasButtons && (
+          <Navbar>
+            <Nav className="me-auto">
+              { hasAddButton && <Nav.Link onClick={onAddItem}>Добавить</Nav.Link> }
+              { hasEditButton && <Nav.Link onClick={onEditItem}>Редактировать</Nav.Link> }
+              { hasDeleteButton && <Nav.Link onClick={onDeleteItem}>Удалить</Nav.Link> }
+            </Nav>
+          </Navbar>
+        ) }
       </Card.Header>
 
       { children }
@@ -45,6 +59,9 @@ function DataCard(props) {
 DataCard.defaultProps = {
   children: null,
   className: null,
+  hasAddButton: false,
+  hasDeleteButton: false,
+  hasEditButton: false,
   subtitle: null,
   title: null,
 
@@ -56,6 +73,9 @@ DataCard.defaultProps = {
 DataCard.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  hasAddButton: PropTypes.bool,
+  hasDeleteButton: PropTypes.bool,
+  hasEditButton: PropTypes.bool,
   subtitle: PropTypes.string,
   title: PropTypes.string,
 

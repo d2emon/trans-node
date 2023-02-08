@@ -47,6 +47,11 @@ function Location(props) {
         connections={connections}
         description={description}
         locationId={locationId}
+        locations={[
+          { id: '1', title: 'Локация 1' },
+          { id: '2', title: 'Локация 2' },
+          { id: '3', title: 'Локация 3' },
+        ]}
         title={title}
         onCancel={handleEditCancel}
         onSave={handleEditSave}
@@ -58,6 +63,9 @@ function Location(props) {
     <DataCard
       subtitle={locationId}
       title={title}
+      hasAddButton
+      hasDeleteButton
+      hasEditButton
       onAddItem={handleAddLocation}
       onDeleteItem={handleDeleteLocation}
       onEditItem={handleEditLocation}
@@ -80,7 +88,11 @@ Location.defaultProps = {
 };
 
 Location.propTypes = {
-  connections: PropTypes.arrayOf(PropTypes.string),
+  connections: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    locationId: PropTypes.string,
+    title: PropTypes.string,
+  })),
   description: PropTypes.node,
   locationId: PropTypes.string,
   title: PropTypes.string,

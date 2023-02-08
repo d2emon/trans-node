@@ -17,7 +17,7 @@ function ConnectionsList(props) {
     >
       <ListGroup variant="flush">
         { connections && connections.map((item) => (
-          <ListGroup.Item key={item}>{ item }</ListGroup.Item>
+          <ListGroup.Item key={item.id}>{ item.title }</ListGroup.Item>
         )) }
       </ListGroup>
     </DataCard>
@@ -29,7 +29,11 @@ ConnectionsList.defaultProps = {
 };
 
 ConnectionsList.propTypes = {
-  connections: PropTypes.arrayOf(PropTypes.string),
+  connections: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    locationId: PropTypes.string,
+    title: PropTypes.string,
+  })),
 };
 
 export default ConnectionsList;
