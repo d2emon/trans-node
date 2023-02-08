@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  Card,
   ListGroup,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import DbNavigator from './DbNavigator';
+import DataCard from './DataCard';
 
 function ConnectionsList(props) {
   const {
@@ -12,23 +11,16 @@ function ConnectionsList(props) {
   } = props;
 
   return (
-    <Card
+    <DataCard
       className="my-2"
+      title="Переходы"
     >
-      <Card.Header>
-        <Card.Title>Переходы</Card.Title>
-      </Card.Header>
-
-      <ListGroup>
+      <ListGroup variant="flush">
         { connections && connections.map((item) => (
           <ListGroup.Item key={item}>{ item }</ListGroup.Item>
         )) }
       </ListGroup>
-
-      <Card.Footer>
-        <DbNavigator />
-      </Card.Footer>
-    </Card>
+    </DataCard>
   );
 }
 

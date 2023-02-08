@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  Card,
   ListGroup,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import DbNavigator from './DbNavigator';
+import DataCard from './DataCard';
 
 function TransportList(props) {
   const {
@@ -12,21 +11,13 @@ function TransportList(props) {
   } = props;
 
   return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Маршруты</Card.Title>
-      </Card.Header>
-
-      <ListGroup>
+    <DataCard title="Маршруты">
+      <ListGroup variant="flush">
         { items && items.map((item) => (
           <ListGroup.Item key={item}>{ item }</ListGroup.Item>
         )) }
       </ListGroup>
-
-      <Card.Footer>
-        <DbNavigator />
-      </Card.Footer>
-    </Card>
+    </DataCard>
   );
 }
 
